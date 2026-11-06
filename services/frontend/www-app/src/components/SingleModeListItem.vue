@@ -3,7 +3,10 @@
     <q-item-label v-if="trip.viaRoadsFormatted">
       {{ $t('via_$place', { place: trip.viaRoadsFormatted }) }}
     </q-item-label>
-    <div v-if="trip.raw.routePreferences?.length" class="route-preferences">
+    <div
+      v-if="trip.raw.routePreferences?.length && !comparing"
+      class="route-preferences"
+    >
       <q-badge
         v-for="preference in trip.raw.routePreferences"
         :key="preference"
@@ -55,6 +58,8 @@ export default defineComponent({
       required: true,
     },
     active: Boolean,
+    /// The comparison card shows each router's route preferences instead.
+    comparing: Boolean,
   },
   setup(props) {
     return useLegElevation(props.trip.legs[0]!);
